@@ -9,10 +9,401 @@
     <meta property="og:description" content="Watch, explore, and learn about Murrel fish farming, feeding techniques, breeding, hatchery management, and culinary delights." />
     <meta property="og:type" content="website" />
     <meta name="twitter:card" content="summary_large_image" />
+    <style>
+      /* Base styles ensure no blank white screen if JS bundle fails on static hosting */
+      body {
+        margin: 0;
+        padding: 0;
+        background-color: #f0f8f0;
+        font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+        color: #064e3b;
+      }
+      .fallback-container {
+        max-width: 900px;
+        margin: 0 auto;
+        padding: 24px 16px 60px 16px;
+        text-align: center;
+      }
+      .fallback-header {
+        margin-bottom: 24px;
+      }
+      .fallback-badge {
+        display: inline-block;
+        background: #10b981;
+        color: #ffffff;
+        font-size: 12px;
+        font-weight: 700;
+        text-transform: uppercase;
+        letter-spacing: 0.05em;
+        padding: 4px 14px;
+        border-radius: 9999px;
+        margin-bottom: 10px;
+      }
+      .fallback-title {
+        color: #064e3b;
+        font-size: 32px;
+        font-weight: 800;
+        margin: 0 0 8px 0;
+      }
+      .fallback-desc {
+        color: #047857;
+        font-size: 15px;
+        margin: 0;
+      }
+      .fallback-player-wrap {
+        width: 100%;
+        aspect-ratio: 16 / 9;
+        background: #000;
+        border-radius: 16px;
+        overflow: hidden;
+        box-shadow: 0 10px 30px rgba(6, 78, 59, 0.2);
+        margin-bottom: 24px;
+      }
+      .fallback-player-wrap iframe {
+        width: 100%;
+        height: 100%;
+        border: none;
+        display: block;
+      }
+      .fallback-card {
+        background: #ffffff;
+        border: 1px solid #d1fae5;
+        border-radius: 16px;
+        padding: 20px;
+        margin-bottom: 20px;
+        text-align: left;
+        box-shadow: 0 2px 8px rgba(0, 0, 0, 0.04);
+      }
+      .fallback-card h3 {
+        color: #065f46;
+        font-size: 16px;
+        margin-top: 0;
+        margin-bottom: 12px;
+        display: flex;
+        align-items: center;
+        gap: 8px;
+      }
+      .fallback-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(260px, 1fr));
+        gap: 16px;
+        margin-bottom: 24px;
+      }
+      .fallback-vid-btn {
+        background: #ffffff;
+        border: 1px solid #d1fae5;
+        border-radius: 12px;
+        padding: 12px;
+        text-align: left;
+        cursor: pointer;
+        display: flex;
+        gap: 12px;
+        transition: all 0.2s;
+        text-decoration: none;
+        color: inherit;
+      }
+      .fallback-vid-btn:hover, .fallback-vid-btn.active {
+        border-color: #10b981;
+        background: #ecfdf5;
+        transform: translateY(-2px);
+      }
+      .fallback-vid-thumb {
+        width: 90px;
+        aspect-ratio: 16 / 9;
+        border-radius: 8px;
+        object-cover: cover;
+        background: #000;
+        flex-shrink: 0;
+      }
+      .fallback-vid-info h4 {
+        margin: 0 0 4px 0;
+        font-size: 13px;
+        color: #064e3b;
+        line-height: 1.3;
+      }
+      .fallback-vid-info p {
+        margin: 0;
+        font-size: 11px;
+        color: #059669;
+      }
+      .calc-row {
+        display: flex;
+        flex-wrap: wrap;
+        gap: 12px;
+        margin-bottom: 12px;
+      }
+      .calc-col {
+        flex: 1;
+        min-width: 140px;
+      }
+      .calc-col label {
+        display: block;
+        font-size: 11px;
+        font-weight: 700;
+        color: #065f46;
+        margin-bottom: 4px;
+        text-transform: uppercase;
+      }
+      .calc-col input {
+        width: 100%;
+        padding: 8px 10px;
+        border: 1px solid #a7f3d0;
+        border-radius: 8px;
+        font-size: 14px;
+        box-sizing: border-box;
+      }
+      .calc-result-box {
+        background: #ecfdf5;
+        border: 1px solid #a7f3d0;
+        border-radius: 12px;
+        padding: 14px;
+        margin-top: 12px;
+      }
+      .calc-kpi-grid {
+        display: grid;
+        grid-template-columns: repeat(auto-fit, minmax(130px, 1fr));
+        gap: 10px;
+        text-align: center;
+      }
+      .calc-kpi {
+        background: #fff;
+        padding: 10px;
+        border-radius: 8px;
+        border: 1px solid #d1fae5;
+      }
+      .calc-kpi-num {
+        font-size: 18px;
+        font-weight: 800;
+        color: #047857;
+      }
+      .calc-kpi-lbl {
+        font-size: 11px;
+        color: #065f46;
+      }
+      .btn-primary {
+        display: inline-block;
+        background: #059669;
+        color: #fff;
+        font-weight: 700;
+        padding: 10px 20px;
+        border-radius: 10px;
+        text-decoration: none;
+        font-size: 14px;
+      }
+      .btn-primary:hover {
+        background: #047857;
+      }
+    </style>
   </head>
   <body>
     <div id="root"></div>
+
+    <!-- Vite module entry for React runtime in AI Studio & modern bundlers -->
     <script type="module" src="/src/main.tsx"></script>
+
+    <!-- Resilient Standalone Fallback Script:
+         If this file is hosted on static GitHub Pages without Node.js or Vite build,
+         browsers fail to execute '/src/main.tsx' directly. This script detects if
+         React didn't mount and automatically injects the full Murrel Fish Videos UI,
+         guaranteeing NO BLANK WHITE SCREEN ever on GitHub! -->
+    <script>
+      (function() {
+        const VIDEOS = [
+          {
+            id: 's3YFytpSuFQ',
+            title: 'Our Murrel Fish Farm - Seed & Tank Overview',
+            desc: 'Seed rearing tanks, water conditioning, and active fingerlings swimming.',
+            category: 'Our Farm'
+          },
+          {
+            id: 'g-D1uP7uKqM',
+            title: 'High-Density Murrel Culture in Cement Tanks & Biofloc',
+            desc: 'Tank aerator setup, solids removal, and disease prevention protocol.',
+            category: 'Farming'
+          },
+          {
+            id: 'o_X4QG8T_lE',
+            title: 'Murrel Fingerlings Feed Training: Live Feed to Floating Pellets',
+            desc: 'Transitioning predatory larvae from Artemia to 42% protein pellets.',
+            category: 'Feeding'
+          },
+          {
+            id: 'T5yC5g2E_L8',
+            title: 'Induced Breeding & Hatchery Protocol for Murrel',
+            desc: 'Broodstock selection, Ovaprim hormone injection, and egg incubation.',
+            category: 'Breeding'
+          },
+          {
+            id: 'M6Q7qL0yPms',
+            title: 'Commercial Murrel Harvesting & Live Transport Economics',
+            desc: 'Live marketing techniques commanding $6–$10/kg premium price.',
+            category: 'Harvest'
+          },
+          {
+            id: 'K5yU9w2D_qA',
+            title: 'Traditional Spicy Murrel Fish Curry (Korrameenu Pulusu)',
+            desc: 'Medicinal wound-healing preparation in clay pot with authentic spices.',
+            category: 'Cooking'
+          }
+        ];
+
+        function renderFallback(root) {
+          if (!root || root.children.length > 0) return;
+
+          let currentVid = VIDEOS[0];
+
+          root.innerHTML = `
+            <div class="fallback-container">
+              <header class="fallback-header">
+                <span class="fallback-badge">Live Aquaculture Portal</span>
+                <h1 class="fallback-title">Our Murrel Fish Videos</h1>
+                <p class="fallback-desc">Korrameenu &bull; Snakehead (Channa striata) &bull; Tank Farming, Seed Rearing & Recipes</p>
+              </header>
+
+              <div class="fallback-player-wrap">
+                <iframe
+                  id="main-player-iframe"
+                  src="https://www.youtube-nocookie.com/embed/${currentVid.id}?rel=0"
+                  title="${currentVid.title}"
+                  allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+                  allowfullscreen>
+                </iframe>
+              </div>
+
+              <div class="fallback-card">
+                <div style="display:flex; justify-content:space-between; align-items:center; flex-wrap:wrap; gap:10px;">
+                  <div>
+                    <h2 id="active-vid-title" style="margin:0 0 4px 0; font-size:20px; color:#064e3b;">${currentVid.title}</h2>
+                    <p id="active-vid-desc" style="margin:0; font-size:13px; color:#059669;">${currentVid.desc}</p>
+                  </div>
+                  <a id="active-vid-yt" href="https://www.youtube.com/watch?v=${currentVid.id}" target="_blank" rel="noopener noreferrer" class="btn-primary">
+                    Watch on YouTube
+                  </a>
+                </div>
+              </div>
+
+              <!-- Playlist Grid -->
+              <h3 style="text-align:left; color:#065f46; font-size:18px; margin:24px 0 12px 0;">More Murrel Videos</h3>
+              <div class="fallback-grid" id="playlist-container"></div>
+
+              <!-- Interactive Farm Calculator -->
+              <div class="fallback-card">
+                <h3>🐟 Murrel Aquaculture Farm Yield & Profit Calculator</h3>
+                <div class="calc-row">
+                  <div class="calc-col">
+                    <label>Fingerlings Stocked</label>
+                    <input type="number" id="calc-seeds" value="1000" min="50" step="50" />
+                  </div>
+                  <div class="calc-col">
+                    <label>Target Weight (kg/fish)</label>
+                    <input type="number" id="calc-weight" value="0.85" min="0.3" step="0.05" />
+                  </div>
+                  <div class="calc-col">
+                    <label>Survival Rate (%)</label>
+                    <input type="number" id="calc-survival" value="82" min="30" max="100" />
+                  </div>
+                  <div class="calc-col">
+                    <label>Selling Price / kg ($ or ₹)</label>
+                    <input type="number" id="calc-price" value="7" min="1" step="0.5" />
+                  </div>
+                </div>
+
+                <div class="calc-result-box">
+                  <div class="calc-kpi-grid">
+                    <div class="calc-kpi">
+                      <div class="calc-kpi-num" id="res-surviving">820</div>
+                      <div class="calc-kpi-lbl">Surviving Fish</div>
+                    </div>
+                    <div class="calc-kpi">
+                      <div class="calc-kpi-num" id="res-biomass">697 kg</div>
+                      <div class="calc-kpi-lbl">Harvest Biomass</div>
+                    </div>
+                    <div class="calc-kpi">
+                      <div class="calc-kpi-num" id="res-feed">976 kg</div>
+                      <div class="calc-kpi-lbl">Feed Required (FCR 1.4)</div>
+                    </div>
+                    <div class="calc-kpi">
+                      <div class="calc-kpi-num" id="res-revenue" style="color:#059669;">$4,879</div>
+                      <div class="calc-kpi-lbl">Est. Gross Revenue</div>
+                    </div>
+                  </div>
+                </div>
+              </div>
+
+              <!-- Biology & Care Guide Card -->
+              <div class="fallback-card">
+                <h3>📋 Murrel Management Rules (Golden Guidelines)</h3>
+                <ul style="color:#374151; font-size:13px; line-height:1.7; padding-left:20px; margin:0;">
+                  <li><strong>Water Temperature:</strong> 26°C – 32°C promotes healthy feed consumption.</li>
+                  <li><strong>Size Grading (Critical):</strong> Grade fingerlings every 10–14 days. Murrels are aggressive predators and larger fish will cannibalize smaller siblings.</li>
+                  <li><strong>Jump Nets:</strong> Murrels can jump up to 3 feet into adjacent tanks/ground; top covers are mandatory.</li>
+                  <li><strong>Medicinal Value:</strong> Abundant in natural albumin for tissue regeneration and surgical wound healing.</li>
+                </ul>
+              </div>
+
+            </div>
+          `;
+
+          // Populate playlist
+          const playlistEl = document.getElementById('playlist-container');
+          VIDEOS.forEach((vid) => {
+            const btn = document.createElement('div');
+            btn.className = 'fallback-vid-btn' + (vid.id === currentVid.id ? ' active' : '');
+            btn.innerHTML = `
+              <img class="fallback-vid-thumb" src="https://img.youtube.com/vi/${vid.id}/mqdefault.jpg" alt="${vid.title}" />
+              <div class="fallback-vid-info">
+                <h4>${vid.title}</h4>
+                <p>${vid.category}</p>
+              </div>
+            `;
+            btn.addEventListener('click', () => {
+              document.querySelectorAll('.fallback-vid-btn').forEach(b => b.classList.remove('active'));
+              btn.classList.add('active');
+              document.getElementById('main-player-iframe').src = 'https://www.youtube-nocookie.com/embed/' + vid.id + '?rel=0&autoplay=1';
+              document.getElementById('active-vid-title').innerText = vid.title;
+              document.getElementById('active-vid-desc').innerText = vid.desc;
+              document.getElementById('active-vid-yt').href = 'https://www.youtube.com/watch?v=' + vid.id;
+              window.scrollTo({ top: 0, behavior: 'smooth' });
+            });
+            playlistEl.appendChild(btn);
+          });
+
+          // Calculator calculation logic
+          function updateCalc() {
+            const seeds = Number(document.getElementById('calc-seeds').value) || 0;
+            const weight = Number(document.getElementById('calc-weight').value) || 0;
+            const surv = Number(document.getElementById('calc-survival').value) || 0;
+            const price = Number(document.getElementById('calc-price').value) || 0;
+
+            const surviving = Math.round(seeds * (surv / 100));
+            const biomass = Math.round(surviving * weight);
+            const feed = Math.round(biomass * 1.4);
+            const revenue = Math.round(biomass * price);
+
+            document.getElementById('res-surviving').innerText = surviving.toLocaleString();
+            document.getElementById('res-biomass').innerText = biomass.toLocaleString() + ' kg';
+            document.getElementById('res-feed').innerText = feed.toLocaleString() + ' kg';
+            document.getElementById('res-revenue').innerText = (price > 50 ? '₹' : '$') + revenue.toLocaleString();
+          }
+
+          ['calc-seeds', 'calc-weight', 'calc-survival', 'calc-price'].forEach(id => {
+            const el = document.getElementById(id);
+            if (el) el.addEventListener('input', updateCalc);
+          });
+        }
+
+        // Check if React mounted within 350ms; if not (e.g. running statically on GitHub Pages), render fallback!
+        window.addEventListener('DOMContentLoaded', function() {
+          setTimeout(function() {
+            if (!window.__REACT_MOUNTED__) {
+              const root = document.getElementById('root');
+              if (root && root.children.length === 0) {
+                renderFallback(root);
+              }
+            }
+          }, 300);
+        });
+      })();
+    </script>
   </body>
 </html>
-

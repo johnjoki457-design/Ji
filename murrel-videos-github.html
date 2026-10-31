@@ -1,0 +1,154 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Murrel Fish Videos</title>
+  <style>
+    * {
+      box-sizing: border-box;
+      margin: 0;
+      padding: 0;
+    }
+    body {
+      font-family: -apple-system, BlinkMacSystemFont, "Segoe UI", Roboto, Helvetica, Arial, sans-serif;
+      text-align: center;
+      background: #f0f8f0;
+      color: #1a3320;
+      padding: 24px 16px;
+      line-height: 1.5;
+    }
+    .container {
+      max-width: 860px;
+      margin: 0 auto;
+    }
+    .badge {
+      display: inline-block;
+      background: #d1fae5;
+      color: #065f46;
+      font-size: 12px;
+      font-weight: 700;
+      text-transform: uppercase;
+      letter-spacing: 0.05em;
+      padding: 4px 12px;
+      border-radius: 9999px;
+      margin-bottom: 8px;
+    }
+    h2 {
+      color: #047857;
+      font-size: 28px;
+      font-weight: 800;
+      margin-bottom: 8px;
+      letter-spacing: -0.02em;
+    }
+    p.subtitle {
+      color: #4b6354;
+      font-size: 14px;
+      margin-bottom: 20px;
+    }
+    .video-wrapper {
+      position: relative;
+      width: 100%;
+      aspect-ratio: 16 / 9;
+      background: #000;
+      border-radius: 16px;
+      overflow: hidden;
+      box-shadow: 0 10px 25px -5px rgba(4, 120, 87, 0.2), 0 8px 10px -6px rgba(0, 0, 0, 0.1);
+      margin-bottom: 24px;
+    }
+    iframe {
+      width: 100%;
+      height: 100%;
+      border: none;
+      display: block;
+    }
+    .card {
+      background: #ffffff;
+      border: 1px solid #d1fae5;
+      border-radius: 16px;
+      padding: 20px;
+      text-align: left;
+      margin-top: 16px;
+      box-shadow: 0 2px 6px rgba(0, 0, 0, 0.04);
+    }
+    .card h3 {
+      color: #065f46;
+      font-size: 16px;
+      margin-bottom: 8px;
+    }
+    .card ul {
+      list-style-position: inside;
+      color: #374151;
+      font-size: 13px;
+      line-height: 1.8;
+    }
+    .btn-row {
+      display: flex;
+      gap: 12px;
+      justify-content: center;
+      flex-wrap: wrap;
+      margin-top: 16px;
+    }
+    .btn {
+      display: inline-flex;
+      align-items: center;
+      gap: 6px;
+      padding: 10px 18px;
+      background: #059669;
+      color: #ffffff;
+      text-decoration: none;
+      border-radius: 10px;
+      font-size: 14px;
+      font-weight: 600;
+      transition: background 0.2s;
+    }
+    .btn:hover {
+      background: #047857;
+    }
+    .btn-secondary {
+      background: #ffffff;
+      color: #065f46;
+      border: 1px solid #a7f3d0;
+    }
+    .btn-secondary:hover {
+      background: #ecfdf5;
+    }
+  </style>
+</head>
+
+<body>
+
+<div class="container">
+  <span class="badge">Official Video</span>
+  <h2>Our Murrel Fish Videos</h2>
+  <p class="subtitle">Snakehead (Channa striata) &bull; Korrameenu &bull; Tank Farming & Nursery Care</p>
+
+  <div class="video-wrapper">
+    <!-- CRITICAL FIX: YouTube requires /embed/s3YFytpSuFQ instead of youtu.be link -->
+    <iframe
+      src="https://www.youtube-nocookie.com/embed/s3YFytpSuFQ?rel=0"
+      title="Our Murrel Fish Video"
+      allow="accelerometer; autoplay; clipboard-write; encrypted-media; gyroscope; picture-in-picture"
+      allowfullscreen>
+    </iframe>
+  </div>
+
+  <div class="btn-row">
+    <a href="https://www.youtube.com/watch?v=s3YFytpSuFQ" target="_blank" rel="noopener noreferrer" class="btn">
+      Watch on YouTube
+    </a>
+  </div>
+
+  <div class="card">
+    <h3>Murrel Fish Farming Tips</h3>
+    <ul>
+      <li><strong>Water Temperature:</strong> 26°C – 32°C promotes optimal metabolic growth.</li>
+      <li><strong>Cannibalism Control:</strong> Grade fingerlings every 10-14 days by size to prevent mortality.</li>
+      <li><strong>Anti-Jump Covering:</strong> Keep tanks covered; Murrels are agile jumpers, especially during night rains.</li>
+      <li><strong>High Nutritional Value:</strong> Rich in natural albumin and amino acids for rapid healing.</li>
+    </ul>
+  </div>
+</div>
+
+</body>
+</html>
